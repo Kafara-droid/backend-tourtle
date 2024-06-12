@@ -1,7 +1,5 @@
 const { admin } = require("../config/firebase");
 
-
-
 const verifyToken = async (req, res, next) => {
     const idToken = req.cookies.access_token;
     if (!idToken) {
@@ -9,7 +7,7 @@ const verifyToken = async (req, res, next) => {
     }
 
     try {
-      const decodedToken = await admin.auth().verifyIdToken(idToken); 
+        const decodedToken = await admin.auth().verifyIdToken(idToken);
         req.user = decodedToken;
         next();
     } catch (error) {
