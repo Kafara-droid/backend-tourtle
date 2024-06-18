@@ -2,22 +2,43 @@ const { db, auth } = require('../config/firebase');
 
 class DestinasiController {
   createDestinasi(req, res) {
-    const { name, description, location } = req.body;
+    const {
+      Description,
+      Category,
+      Place_Id,
+      Place_Name,
+      Coordinate,
+      Rating,
+      Long,
+      City,
+      Lat
+    } = req.body;
 
-    if (!name || !description || !location) {
+    if (!Description || !Category || !Place_Id || !Place_Name || !Coordinate || !Rating || !Long || !City || !Lat) {
       return res.status(422).json({
-        name: !name ? "Name is required" : undefined,
-        description: !description ? "Description is required" : undefined,
-        location: !location ? "Location is required" : undefined,
+        Description: !Description ? "Description is required" : undefined,
+        Category: !Category ? "Category is required" : undefined,
+        Place_Id: !Place_Id ? "Place_Id is required" : undefined,
+        Place_Name: !Place_Name ? "Place_Name is required" : undefined,
+        Coordinate: !Coordinate ? "Coordinate is required" : undefined,
+        Rating: !Rating ? "Rating is required" : undefined,
+        Long: !Long ? "Long is required" : undefined,
+        City: !City ? "City is required" : undefined,
+        Lat: !Lat ? "Lat is required" : undefined,
       });
     }
 
     const newDestinasi = {
-      name,
-      description,
-      location,
+      Description,
+      Category,
+      Place_Id,
+      Place_Name,
+      Coordinate,
+      Rating,
+      Long,
+      City,
+      Lat,
       createdAt: new Date().toISOString(),
-      createdBy: auth.currentUser.uid,
     };
 
     db.collection("destinations")
@@ -67,12 +88,18 @@ class DestinasiController {
 
   updateDestinasi(req, res) {
     const { id } = req.params;
-    const { name, description, location } = req.body;
+    const { Description, Category, Place_Id, Place_Name, Coordinate, Rating, Long, City, Lat } = req.body;
 
     const updateData = {};
-    if (name) updateData.name = name;
-    if (description) updateData.description = description;
-    if (location) updateData.location = location;
+    if (Description) updateData.Description = Description;
+    if (Category) updateData.Category = Category;
+    if (Place_Id) updateData.Place_Id = Place_Id;
+    if (Place_Name) updateData.Place_Name = Place_Name;
+    if (Coordinate) updateData.Coordinate = Coordinate;
+    if (Rating) updateData.Rating = Rating;
+    if (Long) updateData.Long = Long;
+    if (City) updateData.City = City;
+    if (Lat) updateData.Lat = Lat;
 
     db.collection("destinations")
       .doc(id)
@@ -84,7 +111,8 @@ class DestinasiController {
         console.error("Error updating document: ", error);
         res.status(500).json({ error: "An error occurred while updating the destination" });
       });
-  }
+}
+
 
   deleteDestinasi(req, res) {
     const { id } = req.params;

@@ -1,6 +1,7 @@
 require("dotenv").config();
 const firebase = require("firebase/app");
 const admin = require("firebase-admin");
+const { getFirestore } = require('firebase-admin/firestore');
 const {
   getAuth,
   createUserWithEmailAndPassword,
@@ -41,7 +42,10 @@ try {
   process.exit(1);
 }
 
+const db = getFirestore(); // Initialize Firestore
+
 module.exports = {
+  db,
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
